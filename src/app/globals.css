@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0B2046;
+  --foreground: #FFFFFF;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* Custom Scrollbar - Royal Blue & White */
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #08182F;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1D4ED8;
+  border-radius: 9999px;
+  border: 2px solid #08182F;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38BDF8;
+}
+
+/* Drifting Starfield Pattern (Subtle Background Movement) */
+.bg-celestial-drift {
+  background-image: 
+    radial-gradient(1.3px 1.3px at 20px 30px, rgba(255, 255, 255, 0.65), rgba(0, 0, 0, 0)),
+    radial-gradient(1.8px 1.8px at 90px 140px, rgba(56, 189, 248, 0.75), rgba(0, 0, 0, 0)),
+    radial-gradient(1px 1px at 180px 70px, rgba(147, 197, 253, 0.6), rgba(0, 0, 0, 0)),
+    radial-gradient(1.6px 1.6px at 270px 190px, rgba(255, 255, 255, 0.55), rgba(0, 0, 0, 0)),
+    radial-gradient(1.2px 1.2px at 350px 45px, rgba(56, 189, 248, 0.7), rgba(0, 0, 0, 0));
+  background-repeat: repeat;
+  background-size: 380px 240px;
+  animation: celestialDrift 40s linear infinite;
+}
+
+@keyframes celestialDrift {
+  0% {
+    background-position: 0px 0px;
+  }
+  50% {
+    background-position: 190px 120px;
+  }
+  100% {
+    background-position: 380px 240px;
+  }
+}
+
+/* Floating Celestial Nebulas Animations */
+@keyframes floatNebula1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(45px, 30px) scale(1.08);
+  }
+  66% {
+    transform: translate(-30px, 45px) scale(0.95);
+  }
+}
+
+@keyframes floatNebula2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(-50px, -35px) scale(1.1);
+  }
+  66% {
+    transform: translate(30px, -45px) scale(0.92);
+  }
+}
+
+@keyframes floatNebula3 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(40px, -30px) scale(1.06);
+  }
+}
+
+.animate-float-nebula-1 {
+  animation: floatNebula1 22s ease-in-out infinite;
+}
+
+.animate-float-nebula-2 {
+  animation: floatNebula2 28s ease-in-out infinite;
+}
+
+.animate-float-nebula-3 {
+  animation: floatNebula3 24s ease-in-out infinite;
+}
+
+/* Card Surface - Deep Royal Sapphire Blue with crisp border */
+.card-surface {
+  background: linear-gradient(180deg, rgba(15, 43, 92, 0.92) 0%, rgba(11, 32, 70, 0.98) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-surface:hover {
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 10px 30px -5px rgba(37, 99, 235, 0.35);
+}
+
+/* Accessible focus ring */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
