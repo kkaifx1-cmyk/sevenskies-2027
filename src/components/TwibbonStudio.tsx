@@ -1,122 +1,177 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Camera, Download, ExternalLink, Copy, Check, RefreshCw, Upload } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Camera, Download, ExternalLink, Copy, Check, RotateCcw, Upload, Move, Sparkles, Image as ImageIcon } from "lucide-react";
 import { siteConfig } from "@/config/siteConfig";
 import GlowButton from "@/components/ui/GlowButton";
 
 export default function TwibbonStudio() {
   const [userImage, setUserImage] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
+  const [rotation, setRotation] = useState(-4.5); // Default matches polaroid tilt
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [isCopied, setIsCopied] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [frameLoaded, setFrameLoaded] = useState(false);
 
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const frameImgRef = useRef<HTMLImageElement | null>(null);
+  const userImgRef = useRef<HTMLImageElement | null>(null);
+
+  // Preload official twibbon frame image
+  useEffect(() => {
+    const frame = new Image();
+    frame.src = "/twibbon-frame.png";
+    frame.onload = () => {
+      frameImgRef.current = frame;
+      setFrameLoaded(true);
+    };
+  }, []);
+
+  // Handle uploaded user image
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        setUserImage(event.target?.result as string);
+        const dataUrl = event.target?.result as string;
+        setUserImage(dataUrl);
+        const img = new Image();
+        img.src = dataUrl;
+        img.onload = () => {
+          userImgRef.current = img;
+          setZoom(1);
+          setPan({ x: 0, y: 0 });
+          setRotation(-4.5);
+          renderCanvas();
+        };
       };
       reader.readAsDataURL(file);
     }
   };
 
-  useEffect(() => {
+  // Render to 1024x1024 HD Canvas
+  const renderCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const size = 600;
+    const size = 1024;
     canvas.width = size;
     canvas.height = size;
 
-    if (userImage) {
-      const img = new Image();
-      img.src = userImage;
-      img.onload = () => {
-        ctx.clearRect(0, 0, size, size);
+    // Clear background
+    ctx.clearRect(0, 0, size, size);
 
-        // Center crop & scale with zoom
-        const scale = Math.max(size / img.width, size / img.height) * zoom;
-        const x = (size - img.width * scale) / 2;
-        const y = (size - img.height * scale) / 2;
+    // Center coordinates of the polaroid cutout
+    const polaroidCenterX = 552;
+    const polaroidCenterY = 504;
 
-        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-        drawTwibbonFrame(ctx, size);
-      };
+    // 1. LAYER 1: User Photo (or placeholder if empty)
+    if (userImgRef.current && userImage) {
+      const img = userImgRef.current;
+      ctx.save();
+
+      // Translate to polaroid center + user pan offset
+      ctx.translate(polaroidCenterX + pan.x, polaroidCenterY + pan.y);
+
+      // Rotate photo
+      ctx.rotate((rotation * Math.PI) / 180);
+
+      // Scale photo to fit the polaroid aperture (approx 440px)
+      const baseScale = Math.max(480 / img.width, 480 / img.height);
+      const totalScale = baseScale * zoom;
+
+      const drawW = img.width * totalScale;
+      const drawH = img.height * totalScale;
+
+      ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+      ctx.restore();
     } else {
-      ctx.clearRect(0, 0, size, size);
-      ctx.fillStyle = "#0F2B5C";
-      ctx.fillRect(0, 0, size, size);
+      // Elegant placeholder inside the polaroid area
+      ctx.save();
+      ctx.translate(polaroidCenterX, polaroidCenterY);
+      ctx.rotate((-4.5 * Math.PI) / 180);
+      ctx.fillStyle = "#EFE8CF";
+      ctx.fillRect(-220, -220, 440, 440);
 
-      ctx.fillStyle = "#93C5FD";
-      ctx.font = "bold 18px 'Outfit', sans-serif";
+      ctx.fillStyle = "#6B7280";
+      ctx.font = "bold 28px 'Outfit', sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("Klik 'Pilih Foto Anda' untuk memasang", size / 2, size / 2);
-
-      drawTwibbonFrame(ctx, size);
+      ctx.fillText("📷 Area Foto Anda", 0, -10);
+      ctx.font = "20px 'Inter', sans-serif";
+      ctx.fillStyle = "#9CA3AF";
+      ctx.fillText("Klik 'Pilih Foto Anda' di samping", 0, 30);
+      ctx.restore();
     }
-  }, [userImage, zoom]);
 
-  const drawTwibbonFrame = (ctx: CanvasRenderingContext2D, size: number) => {
-    // Elegant Outer Royal Blue & White Border
-    ctx.strokeStyle = "rgba(56, 189, 248, 0.7)";
-    ctx.lineWidth = 14;
-    ctx.strokeRect(7, 7, size - 14, size - 14);
+    // 2. LAYER 2: Official Transparent Seven Skies 2027 Twibbon Frame
+    if (frameImgRef.current && frameLoaded) {
+      ctx.drawImage(frameImgRef.current, 0, 0, size, size);
+    }
+  }, [userImage, zoom, rotation, pan, frameLoaded]);
 
-    // Inner White Border Line
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.6)";
-    ctx.lineWidth = 2.5;
-    ctx.strokeRect(20, 20, size - 40, size - 40);
+  useEffect(() => {
+    renderCanvas();
+  }, [renderCanvas]);
 
-    // Top Header Badge - Royal Blue & White
-    const headerGrad = ctx.createLinearGradient(0, 0, size, 0);
-    headerGrad.addColorStop(0, "#1D4ED8");
-    headerGrad.addColorStop(0.5, "#2563EB");
-    headerGrad.addColorStop(1, "#1D4ED8");
-
-    ctx.fillStyle = headerGrad;
-    ctx.beginPath();
-    ctx.roundRect(40, 30, size - 80, 52, 16);
-    ctx.fill();
-
-    ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    ctx.fillStyle = "#FFFFFF";
-    ctx.font = "900 16px 'Outfit', sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("★ SEVEN SKIES 2027 OFFICIAL DELEGATE ★", size / 2, 62);
-
-    // Bottom Banner Overlay - Deep Ocean Blue
-    const bottomGrad = ctx.createLinearGradient(0, size - 150, 0, size);
-    bottomGrad.addColorStop(0, "rgba(8, 24, 47, 0)");
-    bottomGrad.addColorStop(0.3, "rgba(8, 24, 47, 0.85)");
-    bottomGrad.addColorStop(1, "rgba(8, 24, 47, 0.98)");
-
-    ctx.fillStyle = bottomGrad;
-    ctx.fillRect(0, size - 150, size, 150);
-
-    // Bottom Content
-    ctx.fillStyle = "#FFFFFF";
-    ctx.font = "900 24px 'Outfit', sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("SAYA SIAP JUARA!", size / 2, size - 68);
-
-    ctx.fillStyle = "#93C5FD";
-    ctx.font = "600 13px 'Inter', sans-serif";
-    ctx.fillText("Seven Skies 2027 • SMAIT Ihsanul Fikri Mungkid", size / 2, size - 44);
+  // Drag / Pan handlers (Mouse)
+  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!userImage) return;
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
   };
 
-  const handleDownload = () => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isDragging) return;
+    setPan({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y,
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Drag / Pan handlers (Touch for Mobile)
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!userImage || e.touches.length === 0) return;
+    setIsDragging(true);
+    const touch = e.touches[0];
+    setDragStart({ x: touch.clientX - pan.x, y: touch.clientY - pan.y });
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDragging || e.touches.length === 0) return;
+    const touch = e.touches[0];
+    setPan({
+      x: touch.clientX - dragStart.x,
+      y: touch.clientY - dragStart.y,
+    });
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
+  // Download Final 1024x1024 HD Composite
+  const handleDownloadMerged = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const link = document.createElement("a");
     link.download = "Twibbon-SevenSkies-2027.png";
-    link.href = canvas.toDataURL("image/png");
+    link.href = canvas.toDataURL("image/png", 1.0);
+    link.click();
+  };
+
+  // Download Raw Transparent Frame for Twibbonize
+  const handleDownloadFrame = () => {
+    const link = document.createElement("a");
+    link.download = "Frame-Twibbon-SevenSkies-2027-Transparan.png";
+    link.href = "/twibbon-frame.png";
     link.click();
   };
 
@@ -132,66 +187,128 @@ export default function TwibbonStudio() {
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-royalBlue-850 border border-skyGlow-400/30 text-skyGlow-300 text-xs font-bold mb-3">
             <Camera className="w-3.5 h-3.5" />
-            <span>Studio Twibbon Interaktif</span>
+            <span>Studio Twibbon Interaktif 2027</span>
           </div>
           <h2 className="font-heading font-black text-3xl sm:text-5xl text-pureWhite tracking-tight mb-4">
-            Meriahkan Seven Skies 2027
+            Pasang Twibbon Resmi Seven Skies 2027
           </h2>
           <p className="text-sm sm:text-base text-royalBlue-100">
-            Tunjukkan semangat Anda sebagai delegasi resmi! Pasang foto langsung di browser dengan tema Biru & Putih resmi.
+            Tunjukkan semangatmu dengan desain retro polaroid resmi! Pasang foto langsung di browser atau gunakan template transparan untuk Twibbonize.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto card-surface p-6 sm:p-10 rounded-3xl border border-skyGlow-400/30 shadow-2xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div className="max-w-5xl mx-auto card-surface p-6 sm:p-10 rounded-3xl border border-skyGlow-400/30 shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Interactive Canvas Preview */}
-            <div className="flex flex-col items-center justify-center">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-skyGlow-400/40 max-w-[320px] w-full aspect-square bg-royalBlue-950">
-                <canvas ref={canvasRef} className="w-full h-full object-cover" />
+            <div className="lg:col-span-7 flex flex-col items-center justify-center">
+              <div
+                className={`relative rounded-3xl overflow-hidden shadow-2xl border-2 border-skyGlow-400/40 w-full max-w-[420px] aspect-square bg-royalBlue-950 select-none ${
+                  userImage ? "cursor-grab active:cursor-grabbing" : ""
+                }`}
+              >
+                <canvas
+                  ref={canvasRef}
+                  onMouseDown={handleMouseDown}
+                  onMouseMove={handleMouseMove}
+                  onMouseUp={handleMouseUp}
+                  onMouseLeave={handleMouseUp}
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                  className="w-full h-full object-contain"
+                />
+
+                {userImage && (
+                  <div className="absolute top-3 left-3 bg-royalBlue-950/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-skyGlow-400/30 text-[10px] text-skyGlow-200 flex items-center gap-1.5 pointer-events-none">
+                    <Move className="w-3 h-3 text-skyGlow-300 animate-pulse" />
+                    <span>Geser / Drag untuk atur posisi</span>
+                  </div>
+                )}
               </div>
 
+              {/* Adjust Controls */}
               {userImage && (
-                <div className="w-full max-w-[320px] mt-4 flex items-center gap-3">
-                  <span className="text-xs text-royalBlue-200 font-bold">Zoom:</span>
-                  <input
-                    type="range"
-                    min="0.8"
-                    max="2.5"
-                    step="0.05"
-                    value={zoom}
-                    onChange={(e) => setZoom(parseFloat(e.target.value))}
-                    className="w-full accent-skyGlow-400 cursor-pointer"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUserImage(null);
-                      setZoom(1);
-                    }}
-                    className="p-1 text-royalBlue-300 hover:text-white"
-                    title="Reset Foto"
-                  >
-                    <RefreshCw className="w-3.5 h-3.5" />
-                  </button>
+                <div className="w-full max-w-[420px] mt-4 space-y-3 bg-royalBlue-900/60 p-4 rounded-2xl border border-royalBlue-700/60">
+                  {/* Zoom Slider */}
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-royalBlue-200 font-bold w-14">Zoom:</span>
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="3.0"
+                      step="0.05"
+                      value={zoom}
+                      onChange={(e) => setZoom(parseFloat(e.target.value))}
+                      className="flex-1 accent-skyGlow-400 cursor-pointer"
+                    />
+                    <span className="text-[11px] text-skyGlow-300 font-mono w-10 text-right">
+                      {zoom.toFixed(1)}x
+                    </span>
+                  </div>
+
+                  {/* Rotation Slider */}
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-royalBlue-200 font-bold w-14">Rotasi:</span>
+                    <input
+                      type="range"
+                      min="-45"
+                      max="45"
+                      step="0.5"
+                      value={rotation}
+                      onChange={(e) => setRotation(parseFloat(e.target.value))}
+                      className="flex-1 accent-skyGlow-400 cursor-pointer"
+                    />
+                    <span className="text-[11px] text-skyGlow-300 font-mono w-10 text-right">
+                      {rotation.toFixed(0)}°
+                    </span>
+                  </div>
+
+                  {/* Quick Align & Reset */}
+                  <div className="flex items-center justify-between pt-1 border-t border-royalBlue-800 text-xs">
+                    <button
+                      type="button"
+                      onClick={() => setRotation(-4.5)}
+                      className="text-skyGlow-300 hover:text-white flex items-center gap-1 font-semibold"
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      <span>Pas polaroid (-4.5°)</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setZoom(1);
+                        setRotation(-4.5);
+                        setPan({ x: 0, y: 0 });
+                      }}
+                      className="text-royalBlue-300 hover:text-white flex items-center gap-1"
+                    >
+                      <RotateCcw className="w-3 h-3" />
+                      <span>Reset Posisi</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
 
             {/* Controls & Actions */}
-            <div className="flex flex-col justify-center space-y-4">
+            <div className="lg:col-span-5 flex flex-col justify-center space-y-4">
               <div>
-                <h3 className="font-heading font-black text-xl sm:text-2xl text-white mb-2">
-                  Pasang Frame Resmi Delegasi
+                <span className="text-xs font-bold text-skyGlow-300 uppercase tracking-widest">
+                  Official Retro Twibbon
+                </span>
+                <h3 className="font-heading font-black text-xl sm:text-2xl text-white mt-1 mb-2">
+                  &ldquo;I&apos;m Ready For Seven Skies 2027!&rdquo;
                 </h3>
                 <p className="text-xs sm:text-sm text-royalBlue-100 leading-relaxed">
-                  Unggah foto profil Anda untuk membuat kartu twibbon siap posting ke WhatsApp Story, Instagram feed, atau grup sekolah.
+                  Pasang fotomu ke dalam frame polaroid resmi Seven Skies 2027 langsung dari browser tanpa perlu install aplikasi apapun.
                 </p>
               </div>
 
               {/* Upload Local Image Button */}
               <label className="cursor-pointer py-3.5 px-5 rounded-xl font-heading font-extrabold text-xs sm:text-sm bg-gradient-to-r from-royalBlue-600 via-skyGlow-500 to-royalBlue-600 text-white flex items-center justify-center gap-2 transition-all duration-200 shadow-xl shadow-royalBlue-600/30 hover:shadow-royalBlue-500/50 hover:-translate-y-0.5 border border-skyGlow-300">
                 <Upload className="w-4 h-4" />
-                <span>{userImage ? "Ganti Foto Anda" : "Pilih Foto Anda"}</span>
+                <span>{userImage ? "Ganti Foto Anda" : "Pilih Foto Anda (Pasang Sekarang)"}</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -200,44 +317,64 @@ export default function TwibbonStudio() {
                 />
               </label>
 
-              {/* Download Merged Image */}
+              {/* Download Merged Composite */}
               {userImage && (
                 <GlowButton
-                  onClick={handleDownload}
+                  onClick={handleDownloadMerged}
                   variant="sky"
                   className="py-3 px-5 text-xs sm:text-sm w-full"
                 >
                   <Download className="w-4 h-4" />
-                  <span>Download Hasil Twibbon</span>
+                  <span>Download Hasil Foto (HD 1024×1024)</span>
                 </GlowButton>
               )}
 
-              {/* External Twibbon Link */}
-              <div className="pt-4 border-t border-royalBlue-800 flex flex-col gap-2">
-                <span className="text-xs text-royalBlue-200">Atau buka tautan form template resmi:</span>
-                <div className="flex items-center gap-2">
-                  <a
-                    href={siteConfig.contacts.twibbonUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 py-2.5 px-4 rounded-xl font-heading font-bold text-xs bg-royalBlue-850 hover:bg-royalBlue-800 text-white border border-royalBlue-700 hover:border-skyGlow-400 flex items-center justify-center gap-2 transition-colors"
-                  >
-                    <span>Buka Tautan Twibbonize / Form</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-skyGlow-300" />
-                  </a>
+              {/* Download Transparent Frame Template */}
+              <button
+                type="button"
+                onClick={handleDownloadFrame}
+                className="py-2.5 px-4 rounded-xl font-heading font-bold text-xs bg-royalBlue-850 hover:bg-royalBlue-800 text-royalBlue-200 hover:text-white border border-royalBlue-700 hover:border-skyGlow-400 flex items-center justify-center gap-2 transition-colors"
+              >
+                <ImageIcon className="w-4 h-4 text-skyGlow-300" />
+                <span>Download Frame Transparan (.PNG)</span>
+              </button>
 
+              {/* Twibbonize Link & Quick Steps */}
+              <div className="pt-4 border-t border-royalBlue-800 flex flex-col gap-3">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-white flex items-center gap-1.5">
+                    <ExternalLink className="w-3.5 h-3.5 text-skyGlow-400" />
+                    Kampanye Twibbonize Resmi
+                  </span>
                   <button
                     type="button"
                     onClick={handleCopyLink}
-                    className="p-2.5 rounded-xl bg-royalBlue-850 hover:bg-royalBlue-800 border border-royalBlue-700 text-royalBlue-200 hover:text-white transition-colors"
-                    title="Salin Tautan Twibbon"
+                    className="p-1.5 rounded-lg bg-royalBlue-800 hover:bg-royalBlue-700 text-royalBlue-200 hover:text-white transition-colors"
+                    title="Salin Tautan Twibbonize"
                   >
                     {isCopied ? (
-                      <Check className="w-4 h-4 text-emerald-400" />
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
                     ) : (
-                      <Copy className="w-4 h-4" />
+                      <Copy className="w-3.5 h-3.5" />
                     )}
                   </button>
+                </div>
+
+                <a
+                  href={siteConfig.contacts.twibbonUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-2.5 px-4 rounded-xl font-heading font-bold text-xs bg-gradient-to-r from-blue-700 to-royalBlue-600 hover:from-blue-600 hover:to-royalBlue-500 text-white border border-blue-400/40 flex items-center justify-center gap-2 transition-all shadow-md"
+                >
+                  <span>Buka di Twibbonize.com</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+
+                <div className="bg-royalBlue-950/70 p-3 rounded-xl border border-royalBlue-800 text-[11px] text-royalBlue-200 space-y-1">
+                  <p className="font-bold text-white">💡 Info Panitia Twibbonize:</p>
+                  <p>
+                    Frame transparan sudah siap di tombol <strong>&ldquo;Download Frame Transparan (.PNG)&rdquo;</strong> di atas. Upload file tersebut saat membuat kampanye di <span className="text-skyGlow-300 font-mono">twibbonize.com</span>!
+                  </p>
                 </div>
               </div>
             </div>
