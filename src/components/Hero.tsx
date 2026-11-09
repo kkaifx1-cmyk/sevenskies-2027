@@ -30,9 +30,11 @@ export default function Hero() {
         </h1>
 
         {/* Tagline & Subtitle */}
-        <p className="font-heading text-lg sm:text-2xl font-bold text-royalBlue-100 max-w-3xl mb-3 leading-snug">
-          &ldquo;{siteConfig.tagline.subtitle}&rdquo;
-        </p>
+        <div className="mb-4 max-w-4xl">
+          <p className="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-pureWhite leading-snug tracking-tight">
+            &ldquo;{siteConfig.tagline.subtitle}&rdquo;
+          </p>
+        </div>
 
         {/* Highlight 5 Lomba Badges */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-8 max-w-3xl">

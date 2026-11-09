@@ -32,7 +32,7 @@ export const siteConfig = {
   },
   tagline: {
     highlight: "SEVEN SKIES 2027",
-    subtitle: "Kuatkan Iman dengan Wawasan, dari Kegelapan Menuju Cahaya Perubahan",
+    subtitle: "Urgensi Peran Pemuda dalam Hadapi Krisis di Era Global dan Menumbuhkan Integritas",
     description:
       "Ajang unjuk ketangkasan, seni islami, dan hafalan Al-Qur'an bagi generasi muda berprestasi tingkat nasional.",
   },
