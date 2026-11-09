@@ -66,7 +66,7 @@ export const siteConfig = {
           category: "Cerdas Cermat",
           type: "Tim",
           description: "Adu cepat tanggap wawasan keislaman, sejarah peradaban Islam, Al-Qur'an, dan dasar ilmu fiqih.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 15.000",
         },
         {
           id: "sd-kaligrafi",
@@ -74,7 +74,7 @@ export const siteConfig = {
           category: "Seni Islami",
           type: "Individu",
           description: "Lomba menulis indah ayat suci Al-Qur'an dengan keindahan khat, kerapian, dan komposisi estetika seni Islam.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 20.000",
         },
         {
           id: "sd-mhq",
@@ -82,7 +82,7 @@ export const siteConfig = {
           category: "Keagamaan",
           type: "Individu",
           description: "Uji hafalan Al-Qur'an Juz 30 dengan kelancaran fashahah, kaidah tajwid, dan tartil yang merdu.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 15.000",
         },
         {
           id: "sd-mewarnai",
@@ -90,7 +90,7 @@ export const siteConfig = {
           category: "Seni Islami",
           type: "Individu",
           description: "Kreativitas paduan warna bertemakan keindahan masjid dan nilai-nilai akhlak budi pekerti Islam.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 15.000",
         },
         {
           id: "sd-adzan",
@@ -98,7 +98,7 @@ export const siteConfig = {
           category: "Keagamaan",
           type: "Individu",
           description: "Lomba melantunkan adzan dengan suara lantang merdu, makhraj huruf yang tepat, dan penghayatan khusyuk.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 15.000",
         },
       ],
     } as JenjangData,
@@ -119,7 +119,7 @@ export const siteConfig = {
           category: "Cerdas Cermat",
           type: "Tim",
           description: "Kompetisi ketangkasan analitis seputar sejarah peradaban Islam, hukum syariat, hadits, dan wawasan Islam global.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 15.000",
         },
         {
           id: "smp-kaligrafi",
@@ -127,7 +127,7 @@ export const siteConfig = {
           category: "Seni Islami",
           type: "Individu",
           description: "Karya seni kaligrafi Arab (Hiasan Mushaf / Khat Naskhi) dengan standar ketepatan kaidah khat resmi.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 20.000",
         },
         {
           id: "smp-mhq",
@@ -135,7 +135,7 @@ export const siteConfig = {
           category: "Keagamaan",
           type: "Individu",
           description: "Hafalan Al-Qur'an Juz 29 dan 30 dengan tartil, hukum mad, waqaf ibtida', dan irama tilawah yang fasih.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 15.000",
         },
         {
           id: "smp-mewarnai",
@@ -143,7 +143,7 @@ export const siteConfig = {
           category: "Seni Islami",
           type: "Individu",
           description: "Eksplorasi kreasi warna dan pesan visual bertema dakwah pemuda muslim di era peradaban modern.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 15.000",
         },
         {
           id: "smp-adzan",
@@ -151,12 +151,16 @@ export const siteConfig = {
           category: "Keagamaan",
           type: "Individu",
           description: "Lantunan panggilan shalat dengan cengkok suara indah, kejelasan artikulasi makharijul huruf, dan adab yang sempurna.",
-          biaya: "Gratis / Terjangkau",
+          biaya: "Rp 15.000",
         },
       ],
     } as JenjangData,
   },
   faqs: [
+    {
+      q: "Berapa biaya pendaftaran masing-masing lomba?",
+      a: "Biaya pendaftaran adalah Rp 15.000 per cabang lomba (LCCI, MHQ, Mewarnai, dan Adzan), kecuali cabang Kaligrafi yaitu Rp 20.000.",
+    },
     {
       q: "Apa saja cabang lomba di Seven Skies 2027?",
       a: "Terdapat 5 cabang lomba resmi: LCCI (Lomba Cerdas Cermat Islami), Kaligrafi, MHQ (Musabaqah Hifdzil Qur'an), Mewarnai, dan Adzan untuk jenjang SD/MI dan SMP/MTs sederajat.",
