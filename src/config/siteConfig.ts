@@ -46,7 +46,7 @@ export const siteConfig = {
       official: "officialsevenskies26",
       rohis: "rohis_ifbs",
     },
-    twibbonUrl: "https://twb.nz/twibbon-sevenskies-2027",
+    twibbonUrl: "https://www.twibbonize.com/twibbon-seven-skies-2027",
   },
   jenjang: {
     sd: {
