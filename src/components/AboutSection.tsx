@@ -26,7 +26,7 @@ export default function AboutSection() {
   ];
 
   const highlights = [
-    { number: "5", label: "Cabang Lomba Prestisius" },
+    { number: "6", label: "Cabang Lomba Prestisius" },
     { number: "2", label: "Kategori Jenjang (SD & SMP)" },
     { number: "34", label: "Cakupan Provinsi se-Indonesia" },
     { number: "100%", label: "Penjurian Objektif & Transparan" },
@@ -50,7 +50,7 @@ export default function AboutSection() {
           <p className="text-sm sm:text-base text-royalBlue-100 leading-relaxed">
             Seven Skies 2027 adalah ajang tahunan bergengsi persembahan{" "}
             <strong className="text-white font-bold">{siteConfig.meta.organizer}</strong>. 
-            Menghadirkan 5 cabang kompetisi: <strong>LCCI, Kaligrafi, MHQ, Mewarnai, dan Adzan</strong> untuk melahirkan generasi berkarakter mulia.
+            Menghadirkan 6 cabang kompetisi: <strong>LCCI, Kaligrafi, MHQ, Mewarnai, Adzan, dan Dai Muda</strong> untuk melahirkan generasi berkarakter mulia.
           </p>
         </div>
 

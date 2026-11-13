@@ -58,7 +58,7 @@ export default function Footer() {
               </div>
             </a>
             <p className="text-xs sm:text-sm text-royalBlue-100 leading-relaxed max-w-md mb-6">
-              Ajang kompetisi 5 cabang lomba nasional: <strong>LCCI, Kaligrafi, MHQ, Mewarnai, dan Adzan</strong>. Mewadahi prestasi dan integritas pelajar muslim se-Indonesia.
+              Ajang kompetisi 6 cabang lomba nasional: <strong>LCCI, Kaligrafi, MHQ, Mewarnai, Adzan, dan Dai Muda</strong>. Mewadahi prestasi dan integritas pelajar muslim se-Indonesia.
             </p>
 
             <div className="p-3.5 rounded-2xl bg-royalBlue-850 border border-royalBlue-700 inline-flex items-center gap-3 shadow-lg">

@@ -54,10 +54,10 @@ export default function CompetitionHub() {
             <span>Pusat Pendaftaran & Petunjuk Teknis</span>
           </div>
           <h2 className="font-heading font-black text-3xl sm:text-5xl text-pureWhite tracking-tight mb-4">
-            5 Cabang Lomba Resmi 2027
+            6 Cabang Lomba Resmi 2027
           </h2>
           <p className="text-sm sm:text-base text-royalBlue-100">
-            LCCI, Kaligrafi, MHQ, Mewarnai, dan Adzan. Pilih jenjang pendidikan Anda untuk mengunduh Juknis dan mengisi formulir registrasi.
+            LCCI, Kaligrafi, MHQ, Mewarnai, Adzan, dan Dai Muda. Pilih jenjang pendidikan Anda untuk mengunduh Juknis dan mengisi formulir registrasi.
           </p>
         </div>
 
@@ -113,7 +113,7 @@ export default function CompetitionHub() {
                 Petunjuk Teknis (Juknis)
               </h3>
               <p className="text-xs sm:text-sm text-royalBlue-100 leading-relaxed mb-6">
-                Unduh regulasi resmi, tata tertib, dan rubrik penilaian dewan juri untuk seluruh 5 cabang lomba jenjang {currentData.title}.
+                Unduh regulasi resmi, tata tertib, dan rubrik penilaian dewan juri untuk seluruh 6 cabang lomba jenjang {currentData.title}.
               </p>
             </div>
 
@@ -160,7 +160,7 @@ export default function CompetitionHub() {
                 Pendaftaran Lomba
               </h3>
               <p className="text-xs sm:text-sm text-royalBlue-100 leading-relaxed mb-6">
-                Registrasi online peserta LCCI, Kaligrafi, MHQ, Mewarnai, dan Adzan jenjang {currentData.title}.
+                Registrasi online peserta LCCI, Kaligrafi, MHQ, Mewarnai, Adzan, dan Dai Muda jenjang {currentData.title}.
               </p>
             </div>
 
@@ -236,12 +236,12 @@ export default function CompetitionHub() {
           </div>
         </div>
 
-        {/* 5 Cabang Lomba Directory */}
+        {/* 6 Cabang Lomba Directory */}
         <div className="pt-6 border-t border-royalBlue-800">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
             <div>
               <h3 className="font-heading font-black text-2xl text-white flex items-center gap-2">
-                <span>Daftar 5 Cabang Lomba</span>
+                <span>Daftar 6 Cabang Lomba</span>
                 <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-royalBlue-700 text-pureWhite border border-skyGlow-400/40">
                   {filteredCompetitions.length} Lomba
                 </span>

@@ -35,6 +35,7 @@ export const metadata: Metadata = {
     "MHQ",
     "Mewarnai",
     "Adzan",
+    "Dai Muda",
     "Lomba Pelajar SD SMP",
   ],
   authors: [{ name: siteConfig.meta.organizer }],

@@ -11,12 +11,12 @@ export default function RegistrationFlow() {
     {
       number: "01",
       title: "Pelajari Petunjuk Teknis",
-      short: "Pahami juknis 5 cabang lomba",
+      short: "Pahami juknis 6 cabang lomba",
       icon: Download,
       details: [
         "Pilih jenjang pendidikan Anda (SD/MI atau SMP/MTs) di section Kompetisi.",
         "Unduh dokumen Petunjuk Teknis (Juknis) resmi via Google Drive.",
-        "Pelajari syarat spesifik lomba: LCCI, Kaligrafi, MHQ, Mewarnai, atau Adzan.",
+        "Pelajari syarat spesifik lomba: LCCI, Kaligrafi, MHQ, Mewarnai, Adzan, atau Dai Muda.",
       ],
       tip: "Tips: Pelajari rubrik penilaian juri di dalam juknis agar karya dan hafalan Anda memenuhi standar maksimal.",
     },

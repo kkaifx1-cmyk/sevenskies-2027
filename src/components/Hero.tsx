@@ -20,7 +20,7 @@ export default function Hero() {
         {/* Top Official Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-royalBlue-850/90 border border-skyGlow-400/40 text-skyGlow-300 text-xs font-bold mb-6 shadow-md backdrop-blur-md animate-float-subtle">
           <Sparkles className="w-4 h-4 text-skyGlow-400" />
-          <span>5 Cabang Lomba Resmi — Tingkat Nasional</span>
+          <span>6 Cabang Lomba Resmi — Tingkat Nasional</span>
           <span className="w-1.5 h-1.5 rounded-full bg-skyGlow-400 animate-ping" />
         </div>
 
@@ -36,9 +36,9 @@ export default function Hero() {
           </p>
         </div>
 
-        {/* Highlight 5 Lomba Badges */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-8 max-w-3xl">
-          {["LCCI", "Kaligrafi", "MHQ", "Mewarnai", "Adzan"].map((lomba) => (
+        {/* Highlight 6 Lomba Badges */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-8 max-w-4xl">
+          {["LCCI", "Kaligrafi", "MHQ", "Mewarnai", "Adzan", "Dai Muda"].map((lomba) => (
             <span
               key={lomba}
               className="px-3.5 py-1.5 rounded-xl bg-royalBlue-800/80 border border-skyGlow-400/30 text-xs font-extrabold text-pureWhite shadow-sm hover:border-skyGlow-300 transition-colors"

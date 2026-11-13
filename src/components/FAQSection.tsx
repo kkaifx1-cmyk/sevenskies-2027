@@ -28,7 +28,7 @@ export default function FAQSection() {
             Pertanyaan yang Sering Diajukan
           </h2>
           <p className="text-sm sm:text-base text-royalBlue-100">
-            Informasi seputar pendaftaran 5 cabang lomba, syarat berkas, dan ketentuan teknis Seven Skies 2027.
+            Informasi seputar pendaftaran 6 cabang lomba, syarat berkas, dan ketentuan teknis Seven Skies 2027.
           </p>
         </div>
 

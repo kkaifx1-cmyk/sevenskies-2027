@@ -25,7 +25,7 @@ export const siteConfig = {
   meta: {
     title: "SEVEN SKIES 2027 — Ajang Prestasi Pelajar Nasional",
     description:
-      "Website resmi SEVEN SKIES 2027: Kompetisi LCCI, Kaligrafi, MHQ, Mewarnai, dan Adzan tingkat Nasional persembahan SMAIT Ihsanul Fikri Mungkid.",
+      "Website resmi SEVEN SKIES 2027: Kompetisi LCCI, Kaligrafi, MHQ, Mewarnai, Adzan, dan Dai Muda tingkat Nasional persembahan SMAIT Ihsanul Fikri Mungkid.",
     eventDate: "2027-02-15T08:00:00+07:00",
     organizer: "SMAIT Ihsanul Fikri Islamic Boarding School Mungkid",
     shortOrganizer: "SMAIT Ihsanul Fikri",
@@ -100,6 +100,14 @@ export const siteConfig = {
           description: "Lomba melantunkan adzan dengan suara lantang merdu, makhraj huruf yang tepat, dan penghayatan khusyuk.",
           biaya: "Rp 15.000",
         },
+        {
+          id: "sd-dai-muda",
+          name: "Dai Muda",
+          category: "Keagamaan",
+          type: "Individu",
+          description: "Lomba syiar dakwah dan ceramah agama Islam dengan retorika memikat, penguasaan dalil Al-Qur'an/Hadits, dan keteladanan akhlak.",
+          biaya: "Rp 15.000",
+        },
       ],
     } as JenjangData,
     smp: {
@@ -153,17 +161,25 @@ export const siteConfig = {
           description: "Lantunan panggilan shalat dengan cengkok suara indah, kejelasan artikulasi makharijul huruf, dan adab yang sempurna.",
           biaya: "Rp 15.000",
         },
+        {
+          id: "smp-dai-muda",
+          name: "Dai Muda",
+          category: "Keagamaan",
+          type: "Individu",
+          description: "Kompetisi pidato dan ceramah dakwah Islam bernas, mengupas urgensi peran pemuda dalam menghadapi krisis global dan menjaga integritas.",
+          biaya: "Rp 15.000",
+        },
       ],
     } as JenjangData,
   },
   faqs: [
     {
       q: "Berapa biaya pendaftaran masing-masing lomba?",
-      a: "Biaya pendaftaran adalah Rp 15.000 per cabang lomba (LCCI, MHQ, Mewarnai, dan Adzan), kecuali cabang Kaligrafi yaitu Rp 20.000.",
+      a: "Biaya pendaftaran adalah Rp 15.000 per cabang lomba (LCCI, MHQ, Mewarnai, Adzan, dan Dai Muda), kecuali cabang Kaligrafi yaitu Rp 20.000.",
     },
     {
       q: "Apa saja cabang lomba di Seven Skies 2027?",
-      a: "Terdapat 5 cabang lomba resmi: LCCI (Lomba Cerdas Cermat Islami), Kaligrafi, MHQ (Musabaqah Hifdzil Qur'an), Mewarnai, dan Adzan untuk jenjang SD/MI dan SMP/MTs sederajat.",
+      a: "Terdapat 6 cabang lomba resmi: LCCI (Lomba Cerdas Cermat Islami), Kaligrafi, MHQ (Musabaqah Hifdzil Qur'an), Mewarnai, Adzan, dan Dai Muda untuk jenjang SD/MI dan SMP/MTs sederajat.",
     },
     {
       q: "Bagaimana cara mengunduh Petunjuk Teknis (Juknis) tiap lomba?",
