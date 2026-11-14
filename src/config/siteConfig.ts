@@ -26,7 +26,7 @@ export const siteConfig = {
     title: "SEVEN SKIES 2027 — Ajang Prestasi Pelajar Nasional",
     description:
       "Website resmi SEVEN SKIES 2027: Kompetisi LCCI, Kaligrafi, MHQ, Mewarnai, Adzan, dan Dai Muda tingkat Nasional persembahan SMAIT Ihsanul Fikri Mungkid.",
-    eventDate: "2027-02-15T08:00:00+07:00",
+    eventDate: "2027-01-05T08:00:00+07:00",
     organizer: "SMAIT Ihsanul Fikri Islamic Boarding School Mungkid",
     shortOrganizer: "SMAIT Ihsanul Fikri",
   },

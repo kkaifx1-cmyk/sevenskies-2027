@@ -36,27 +36,24 @@ export default function TwibbonStudio() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Twibbon Visual Preview */}
             <div className="flex justify-center">
-              <div className="relative group w-full max-w-[340px] aspect-square rounded-2xl overflow-hidden border-2 border-skyGlow-400/40 shadow-2xl shadow-royalBlue-950/80 bg-royalBlue-950">
+              <div className="relative w-full max-w-[340px] aspect-square rounded-2xl overflow-hidden border-2 border-skyGlow-400/40 shadow-2xl shadow-royalBlue-950/80 bg-royalBlue-950 transition-all duration-300 hover:border-skyGlow-300 hover:shadow-skyGlow-500/20">
                 <Image
                   src="/twibbon-original.png"
                   alt="Desain Twibbon Resmi Seven Skies 2027"
-                  width={680}
-                  height={680}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  width={1024}
+                  height={1024}
+                  className="w-full h-full object-contain"
                   priority
                 />
-                <div className="absolute top-3 left-3 bg-royalBlue-950/85 backdrop-blur-md px-2.5 py-1 rounded-full border border-skyGlow-400/40 text-[10px] text-skyGlow-200 font-bold flex items-center gap-1.5 shadow-md">
-                  <Sparkles className="w-3 h-3 text-skyGlow-300" />
-                  <span>Preview Desain Resmi</span>
-                </div>
               </div>
             </div>
 
             {/* Twibbon Details & Action Buttons */}
             <div className="flex flex-col justify-center space-y-5">
               <div>
-                <span className="text-[11px] font-bold text-skyGlow-300 uppercase tracking-widest">
-                  Template Delegasi 2027
+                <span className="text-[11px] font-bold text-skyGlow-300 uppercase tracking-widest flex items-center gap-1.5 mb-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-skyGlow-400" />
+                  <span>Desain Twibbon Resmi 2027</span>
                 </span>
                 <h3 className="font-heading font-black text-2xl sm:text-3xl text-pureWhite mt-1 mb-2">
                   &ldquo;I&apos;m Ready For Seven Skies 2027!&rdquo;

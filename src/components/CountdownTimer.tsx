@@ -77,7 +77,7 @@ export default function CountdownTimer() {
     <div className="flex flex-col items-center">
       <div className="flex items-center gap-2 mb-2.5 text-xs uppercase tracking-widest text-skyGlow-300 font-bold">
         <Clock className="w-3.5 h-3.5 text-skyGlow-400 animate-pulse" />
-        <span>Menuju Puncak Pelaksanaan 2027</span>
+        <span>Menuju Pelaksanaan • 5 Januari 2027</span>
       </div>
 
       <div className="grid grid-cols-4 gap-2.5 sm:gap-4 max-w-md w-full">
